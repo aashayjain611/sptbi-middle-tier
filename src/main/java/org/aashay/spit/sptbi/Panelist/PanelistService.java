@@ -37,7 +37,7 @@ public class PanelistService {
 			int start=0;// start, end have not been used because function to divide forms is not yet called
 			int end=0;
 			String query1="select category,round,start,end from panelists where username='"+username+"'"; // get details of the panelists
-			System.out.println(query1);
+			System.out.println("\"PanelistService\": "+query1);
 			Statement stmt1=mysql.connectToDatabase();
 			ResultSet rs1=stmt1.executeQuery(query1);
 			if(rs1.next())
@@ -50,7 +50,7 @@ public class PanelistService {
 			ArrayList<Integer> temp=new ArrayList<>(); //arraylist of formids of that category
 			String query2="select formid from form where category='"+category+"' order by formid asc"; // get forms based on their category
 			Statement stmt2=mysql.connectToDatabase();
-			System.out.println(query2);
+			System.out.println("\"PanelistService\": "+query2);
 			ResultSet rs2=stmt2.executeQuery(query2);
 			while(rs2.next())
 				temp.add(rs2.getInt(1));
@@ -70,15 +70,15 @@ public class PanelistService {
 							+ "differentFromCompetitors,moneyModel,workingIdea,operationalRevenue,startupIdea,category,"
 							+ "round"+round+",rating"+round+",note"+round+" from form where formid="+formid
 							+ " and category='"+category+"' and round"+round+"='NEW'";
-				System.out.println(query3);
+				System.out.println("\"PanelistService\": "+query3);
 				ResultSet rs3=stmt3.executeQuery(query3);
 				if(rs3.next())
 				{
 					int form_id=rs3.getInt(1);
 					ArrayList<Founder> founders=(new FounderService()).getFounderById(form_id);
-					System.out.println("Founders for formid "+form_id+"=");
+					System.out.println("\"PanelistService\": "+"Founders for formid "+form_id+"=");
 					for(Founder f:founders)
-						System.out.println(f.getName());
+						System.out.println("\"PanelistService\": "+"Founder name: "+f.getName());
 					list.add(new Startup(rs3.getInt(1),rs3.getString(2),rs3.getString(3),rs3.getString(4)
 							,rs3.getInt(5),rs3.getString(6),rs3.getString(7),rs3.getString(8),rs3.getString(9),rs3.getString(10)
 							,rs3.getString(11),rs3.getString(12),rs3.getString(13),rs3.getString(14),rs3.getString(15)
@@ -96,7 +96,7 @@ public class PanelistService {
 		} 
 		catch (Exception e) 
 		{
-			System.out.println(e);
+			System.out.println("\"PanelistService\": "+e);
 		} 
 		return list;
 	}
@@ -105,8 +105,8 @@ public class PanelistService {
 	
 	public int postToDatabase(String json,String username)
 	{
-		System.out.println("postToDatabase");
-		System.out.println(json);
+		System.out.println("\"PanelistService\": "+"postToDatabase");
+		System.out.println("\"PanelistService\": "+json);
 		try
 		{
 			Statement stmt=mysql.connectToDatabase();
@@ -133,10 +133,10 @@ public class PanelistService {
 				
 				// String is manipulated to prevent error caused by escape characters
 				
-				System.out.println("Form-ID is: "+jsonObject.getInt("formid"));
-				System.out.println("Note for round"+round+" is: "+jsonObject.getString("note"));
-				System.out.println("Status of round"+round+" is: "+jsonObject.getString("status"));
-				System.out.println("Rating for round"+round+" is: "+jsonObject.getInt("rating"));
+				System.out.println("\"PanelistService\": "+"Form-ID is: "+jsonObject.getInt("formid"));
+				System.out.println("\"PanelistService\": "+"Note for round"+round+" is: "+jsonObject.getString("note"));
+				System.out.println("\"PanelistService\": "+"Status of round"+round+" is: "+jsonObject.getString("status"));
+				System.out.println("\"PanelistService\": "+"Rating for round"+round+" is: "+jsonObject.getInt("rating"));
 				
 				// update query to update the status,ratings,notes for each form
 				
@@ -144,21 +144,22 @@ public class PanelistService {
 							+ " ,note"+round+"='"+jsonObject.getString("note").replace("\\", "\\"+"\\").replace("\'", "\\'").replace("\"", "\\"+"\"")+"' "
 							+ ",rating"+round+"="+jsonObject.getInt("rating")+""
 							+ " where formid="+jsonObject.getInt("formid")+" and category='"+category+"'";
-				System.out.println(update);
+				System.out.println("\"PanelistService\": "+update);
 				stmt.executeUpdate(update);
 				int selectionLimit=0;
 				String query2="select selectionLimit from panelists where username='"+username+"'";
+				System.out.println("\"PanelistService\": "+query2);
 				Statement stmt1=mysql.connectToDatabase();
 				ResultSet resultSet=stmt1.executeQuery(query2);
 				if(resultSet.next())
 					selectionLimit=resultSet.getInt(1);
-				System.out.println(jsonObject.getString("status").toUpperCase()+"\t"+jsonObject.getString("status").toUpperCase().equals("YES"));
+				System.out.println("\"PanelistService\": "+jsonObject.getString("status").toUpperCase()+"\t"+jsonObject.getString("status").toUpperCase().equals("YES"));
 				if(jsonObject.getString("status").toUpperCase().equals("YES"))
 					selectionLimit--;
-				System.out.println("Selection limit is: "+selectionLimit);
+				System.out.println("\"PanelistService\": "+"Selection limit is: "+selectionLimit);
 				Statement stmt3=mysql.connectToDatabase();
 				String update2="update panelists set selectionLimit="+selectionLimit+" where username='"+username+"'";
-				System.out.println("New limit="+selectionLimit);
+				System.out.println("\"PanelistService\": "+"New limit="+selectionLimit);
 				stmt3.executeUpdate(update2);
 				resultSet.close();
 				stmt3.close();
@@ -174,7 +175,7 @@ public class PanelistService {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			System.out.println("\"PanelistService\": "+e);
 		}
 		return 0;
 	}
@@ -186,6 +187,7 @@ public class PanelistService {
 		{
 			Statement stmt=mysql.connectToDatabase();
 			String query="select selectionLimit from panelists where username='"+username+"'";
+			System.out.println("\"PanelistService\": "+query);
 			ResultSet rs=stmt.executeQuery(query);
 			if(rs.next())
 				panelist=new Panelist(rs.getInt(1));
@@ -196,7 +198,7 @@ public class PanelistService {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			System.out.println("\"PanelistService\": "+e);
 		}
 		return panelist;
 	}

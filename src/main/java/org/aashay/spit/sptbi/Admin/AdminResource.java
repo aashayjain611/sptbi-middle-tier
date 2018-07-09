@@ -52,5 +52,12 @@ private AdminService admin=new AdminService();
 	{
 		return admin.endRound(round);
 	}
+	
+	@GET
+	@Path("/getRoundStatus")
+	public EndRoundStatus getEndRoundStatus()
+	{
+		return admin.getEndRoundStatus();
+	}
 
 }

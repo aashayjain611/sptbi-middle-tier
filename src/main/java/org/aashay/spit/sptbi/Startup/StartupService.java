@@ -21,11 +21,12 @@ public class StartupService {
 	
 	public int postToDatabase(String json)
 	{
-		System.out.println(json);
+		System.out.println("\"StartupService\": "+json);
 		try
 		{
 			Statement stmt=mysql.connectToDatabase();
 			String query2="select endRound1 from admin";
+			System.out.println("\"StartupService\": "+query2);
 			ResultSet rs=stmt.executeQuery(query2);
 			long time=0;
 			if(rs.next())
@@ -48,10 +49,10 @@ public class StartupService {
 						+jsonObj.getString("differentFromCompetitors").replace("\\", "\\"+"\\").replace("\'", "\\'").replace("\"", "\\"+"\"")+"','"+jsonObj.getString("moneyModel").replace("\\", "\\"+"\\").replace("\'", "\\'").replace("\"", "\\"+"\"")+"','"
 						+jsonObj.getString("workingIdea").toUpperCase()+"','"+jsonObj.getString("operationalRevenue").toUpperCase()+"','"
 						+jsonObj.getString("startupIdea").replace("\\", "\\"+"\\").replace("\'", "\\'").replace("\"", "\\"+"\"")+"','"+jsonObj.getString("category").toUpperCase()+"','NEW','NEW',"+timestamp+",0,0,'','')";
-				System.out.println(query);
+				System.out.println("\"StartupService\": "+query);
 				stmt.executeUpdate(query);
 				int n=Integer.parseInt(jsonObj.getString("noFounders"));
-				System.out.println("No. of founders: "+n);
+				System.out.println("\"StartupService\": "+"No. of founders: "+n);
 				
 				JSONArray a=(JSONArray)jsonObj.get("founders");
 				
@@ -59,18 +60,18 @@ public class StartupService {
 				
 				for(int i=0;i<n;i++)
 				{
-					System.out.println("Name is: "+a.getJSONObject(i).getString("founderName"));
-					System.out.println("Contact no. is: "+a.getJSONObject(i).getString("founderContact"));
-					System.out.println("Email-ID is: "+a.getJSONObject(i).getString("founderEmail"));
-					int founderId=getId("founderid","founders");
+					System.out.println("\"StartupService\": "+"Name is: "+a.getJSONObject(i).getString("founderName"));
+					System.out.println("\"StartupService\": "+"Contact no. is: "+a.getJSONObject(i).getString("founderContact"));
+					System.out.println("\"StartupService\": "+"Email-ID is: "+a.getJSONObject(i).getString("founderEmail"));
+					int founderId=getId("\"StartupService\": "+"founderid","founders");
 					
 					// query to post founder
 					
 					String query1="insert into founders values"
 							+ "("+founderId+","+formId+",'"+a.getJSONObject(i).getString("founderName").replace("\\", "\\"+"\\").replace("\'", "\\'").replace("\"", "\\"+"\"")+"','"+a.getJSONObject(i).getString("founderEmail").replace("\\", "\\"+"\\").replace("\'", "\\'").replace("\"", "\\"+"\"")+"',"
 							+(Long.parseLong(a.getJSONObject(i).getString("founderContact")))+")";
-					System.out.println(query1);
-					stmt.executeUpdate(query1);
+					System.out.println("\"StartupService\": "+query1);
+					stmt.executeUpdate("\"StartupService\": "+query1);
 				}
 				stmt.close();
 				if(mysql.getConnection()!=null)
@@ -79,7 +80,7 @@ public class StartupService {
 		} 
 		catch (Exception e) 
 		{
-			System.out.println(e);
+			System.out.println("\"StartupService\": "+e);
 		}
 		return 0;
 	}
@@ -95,6 +96,8 @@ public class StartupService {
 			Statement stmt=mysql.connectToDatabase();
 			String query="select "+idType+" from "+table; // get all formids or founderids 
 			String query1="select count("+idType+") from "+table; //get the count of no. of forms or founders
+			System.out.println("\"StartupService\": "+query);
+			System.out.println("\"StartupService\": "+query1);
 			Statement s=mysql.connectToDatabase();
 			ResultSet result=s.executeQuery(query1);
 			if(result.next())
@@ -119,7 +122,7 @@ public class StartupService {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			System.out.println("\"StartupService\": "+e);
 		}
 		return id;
 	}

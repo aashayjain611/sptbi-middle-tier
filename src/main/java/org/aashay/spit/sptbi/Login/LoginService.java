@@ -7,9 +7,9 @@ import org.aashay.spit.sptbi.Database.MySql;
 
 
 public class LoginService {
-
-	private MySql mysql=new MySql();
 	
+	private MySql mysql=new MySql();
+
 	public CheckUser checkDatabase(Login login)
 	{
 		String username=login.getUsername();
@@ -20,7 +20,7 @@ public class LoginService {
 		try
 		{
 			String query1="select category,round from panelists where username='"+username+"' and password='"+password+"'";
-			System.out.println(query1);
+			System.out.println("\"LoginService\": "+query1);
 			ResultSet rs1=stmt1.executeQuery(query1);
 			if(rs1.next())
 			{
@@ -32,7 +32,7 @@ public class LoginService {
 		} 
 		catch (Exception e) 
 		{
-			System.out.println(e);
+			System.out.println("\"LoginService\": "+e);
 		}
 		if(username.equals("Anukrit") && password.equals("Anukritjain"))
 		{
@@ -40,14 +40,14 @@ public class LoginService {
 			{
 				Statement stmt2=mysql.connectToDatabase();
 				String query2="select username from admin";
-				System.out.println(query2);
+				System.out.println("\"LoginService\": "+query2);
 				ResultSet rs2=stmt2.executeQuery(query2);
 				if(!rs2.next())
 				{
 					Statement stmt3=mysql.connectToDatabase();
 					String query3="insert into admin(username,password) values('"+username+"','"+password+"')";
 					stmt3.executeUpdate(query3);
-					System.out.println(query3);
+					System.out.println("\"LoginService\": "+query3);
 					stmt3.close();
 				}
 				stmt2.close();
@@ -57,7 +57,7 @@ public class LoginService {
 			} 
 			catch (Exception e)
 			{
-				System.out.println(e);
+				System.out.println("\"LoginService\": "+e);
 			}
 			return new CheckUser(3,"null","Anukrit");
 		}

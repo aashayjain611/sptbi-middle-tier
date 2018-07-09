@@ -28,6 +28,7 @@ public class FounderService {
 			//query to get details of founders
 			
 			String query="select founderName,founderEmail,founderContact from founders where formid='"+parseInt+"'";
+			System.out.println("\"FounderService\": "+query);
 			ResultSet rs=stmt.executeQuery(query);
 			while(rs.next())
 				list.add(new Founder(rs.getString(1),rs.getString(2),rs.getLong(3)));
@@ -38,7 +39,7 @@ public class FounderService {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			System.out.println("\"FounderService\": "+e);
 		}
 		return list;
 	}

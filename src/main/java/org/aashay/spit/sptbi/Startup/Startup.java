@@ -21,7 +21,7 @@ public class Startup {
 	private String startupIdea; //stores the startup idea 
 	private String category; //stores the category to which the startup belongs
 	private String status; //stores the status for a particular round ("NO","YES","NEW")
-	private long timestamp; //stores the timestamp when the form is registered
+	private String timestamp; //stores the timestamp when the form is registered
 	private int rating; //stores rating for a particular round
 	private String note; //stores note for a particular round
 	private ArrayList<Founder> founders; //stores list of founders associated with a startup
@@ -56,38 +56,6 @@ public class Startup {
 		super();
 	}
 	
-	//constructor for GET request 
-	
-	public Startup(int formid, String startupName, String description, String startupIdea) {
-		super();
-		this.formid = formid;
-		this.startupName = startupName;
-		this.description = description;
-		this.startupIdea = startupIdea;
-	}
-	
-	//constructor for POST request (without ratings,notes,round)
-	
-	public Startup(int formid, String startupName, String legalEntity, String description, int noFounders,
-			String painPoint, String primaryCustomer, String competitors, String differentFromCompetitors,
-			String moneyModel, String workingIdea, String operationalRevenue, String startupIdea, String category) {
-		super();
-		this.formid = formid;
-		this.startupName = startupName;
-		this.legalEntity = legalEntity;
-		this.description = description;
-		this.noFounders = noFounders;
-		this.painPoint = painPoint;
-		this.primaryCustomer = primaryCustomer;
-		this.competitors = competitors;
-		this.differentFromCompetitors = differentFromCompetitors;
-		this.moneyModel = moneyModel;
-		this.workingIdea = workingIdea;
-		this.operationalRevenue = operationalRevenue;
-		this.startupIdea = startupIdea;
-		this.category = category;
-	}
-	
 	//constructor for POST request (with ratings and notes)
 	
 	public Startup(int formid, String startupName, String legalEntity, String description, int noFounders,
@@ -118,7 +86,7 @@ public class Startup {
 	public Startup(int formid, String startupName, String legalEntity, String description, int noFounders,
 			String painPoint, String primaryCustomer, String competitors, String differentFromCompetitors,
 			String moneyModel, String workingIdea, String operationalRevenue, String startupIdea, String category,
-			String status, int rating, String note,ArrayList<Founder> founders,String panelist,int round) {
+			String status, int rating, String note,ArrayList<Founder> founders,String panelist,int round, String timestamp) {
 		super();
 		this.formid = formid;
 		this.startupName = startupName;
@@ -140,32 +108,14 @@ public class Startup {
 		this.founders=founders;
 		this.panelist=panelist;
 		this.round=round;
+		this.timestamp=timestamp;
 	}
 	
-	public Startup(int formid, String startupName, String legalEntity, String description, int noFounders,
-			String painPoint, String primaryCustomer, String competitors, String differentFromCompetitors,
-			String moneyModel, String workingIdea, String operationalRevenue, String startupIdea, String category,
-			String status, int rating, String note) {
-		super();
-		this.formid = formid;
-		this.startupName = startupName;
-		this.legalEntity = legalEntity;
-		this.description = description;
-		this.noFounders = noFounders;
-		this.painPoint = painPoint;
-		this.primaryCustomer = primaryCustomer;
-		this.competitors = competitors;
-		this.differentFromCompetitors = differentFromCompetitors;
-		this.moneyModel = moneyModel;
-		this.workingIdea = workingIdea;
-		this.operationalRevenue = operationalRevenue;
-		this.startupIdea = startupIdea;
-		this.category = category;
-		this.status = status;
-		this.rating = rating;
-		this.note = note;
+	public Startup(String startupName)
+	{
+		this.startupName=startupName;
 	}
-
+	
 	// getters and setter methods
 
 	public int getFormid() {
@@ -258,10 +208,10 @@ public class Startup {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public long getTimestamp() {
+	public String getTimestamp() {
 		return timestamp;
 	}
-	public void setTimestamp(long timestamp) {
+	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
 	public int getRating() {

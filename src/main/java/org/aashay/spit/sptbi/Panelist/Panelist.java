@@ -8,8 +8,6 @@ public class Panelist
 	private String category;
 	private int round;
 	private int selectionLimit;
-	private int start;
-	private int end;
 	
 	public Panelist() {
 		super();
@@ -63,27 +61,9 @@ public class Panelist
 		this.selectionLimit = selectionLimit;
 	}
 
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public int getEnd() {
-		return end;
-	}
-
-	public void setEnd(int end) {
-		this.end = end;
-	}
-
 	public Panelist(int selectionLimit) {
 		super();
 		this.selectionLimit = selectionLimit;
 	}
-	
-	
-	
+		
 }

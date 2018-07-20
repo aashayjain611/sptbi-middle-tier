@@ -18,7 +18,6 @@ public class AdminResource {
 	
 private AdminService admin=new AdminService();
 	
-
 	@POST
 	public int postToDatabase(Admin admins)
 	{
@@ -50,7 +49,7 @@ private AdminService admin=new AdminService();
 	@GET
 	public int endRound(@QueryParam("endRound") int round)
 	{
-		return admin.endRound(round);
+		return admin.endRound(round,null);
 	}
 	
 	@GET
@@ -59,5 +58,19 @@ private AdminService admin=new AdminService();
 	{
 		return admin.getEndRoundStatus();
 	}
+	
+	@GET
+	@Path("/getPanelistWithPendingForms")
+	public ArrayList<EndRoundStatus> getPanelistsWithPendingForms()
+	{
+		return admin.getPanelistsWithPendingForms();
+	}
 
+	@GET
+	@Path("/startRegistration")
+	public int startRegistration()
+	{
+		return admin.startRegistration();
+	}
+	
 }

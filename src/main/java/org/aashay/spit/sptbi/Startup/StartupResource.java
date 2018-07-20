@@ -1,6 +1,7 @@
 package org.aashay.spit.sptbi.Startup;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -32,9 +33,17 @@ public class StartupResource {
 	
 	// resource to get founders' details for a particular startup
 	
+	@GET
 	@Path("{formid}/founder")
 	public FounderResource getFounder()
 	{
 		return new FounderResource();
+	}
+	
+	@POST
+	@Path("/checkStartupName")
+	public CheckStartupName checkStartupName(Startup startup)
+	{
+		return startupService.checkStartupName(startup);
 	}
 }

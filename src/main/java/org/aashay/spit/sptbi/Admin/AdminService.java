@@ -584,12 +584,16 @@ public class AdminService {
 	{
 		try
 		{
-			String query1="delete from form";
-			String query2="delete from panelists";
-			String query3="delete from founders";
-			String query4="delete from admin";
-			return con.prepareStatement(query1).executeUpdate()+con.prepareStatement(query2).executeUpdate()+
-					con.prepareStatement(query3).executeUpdate()+con.prepareStatement(query4).executeUpdate();
+			String query[]= {"delete from form","delete from panelists","delete from founders","delete from admin"};
+			PreparedStatement stmt[]=new PreparedStatement[query.length];
+			for(int i=0;i<query.length;i++)
+			{
+				System.out.println(TAG+": "+query[i]);
+				stmt[i]=con.prepareStatement(query[i]);
+				stmt[i].executeUpdate();
+				stmt[i].close();
+			}
+			return 1;
 		}
 		catch(Exception e)
 		{

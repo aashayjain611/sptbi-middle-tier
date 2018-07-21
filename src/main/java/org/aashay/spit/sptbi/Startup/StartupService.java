@@ -130,11 +130,11 @@ public class StartupService {
 		return id;
 	}
 
-	public CheckStartupName checkStartupName(Startup startup) 
+	public CheckStartupName checkStartupName(String startupName) 
 	{
 		try
 		{
-			String query="select formid from form where startupName='"+startup.getStartupName()+"'";
+			String query="select formid from form where startupName='"+startupName+"'";
 			System.out.println(TAG+": "+query);
 			PreparedStatement stmt=con.prepareStatement(query);
 			ResultSet rs=stmt.executeQuery();

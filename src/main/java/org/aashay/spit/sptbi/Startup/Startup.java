@@ -111,11 +111,6 @@ public class Startup {
 		this.timestamp=timestamp;
 	}
 	
-	public Startup(String startupName)
-	{
-		this.startupName=startupName;
-	}
-	
 	// getters and setter methods
 
 	public int getFormid() {

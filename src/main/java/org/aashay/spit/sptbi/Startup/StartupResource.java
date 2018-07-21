@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.aashay.spit.sptbi.Founder.FounderResource;
@@ -40,10 +41,9 @@ public class StartupResource {
 		return new FounderResource();
 	}
 	
-	@POST
-	@Path("/checkStartupName")
-	public CheckStartupName checkStartupName(Startup startup)
+	@GET
+	public CheckStartupName checkStartupName(@QueryParam("checkStartupName") String startupName)
 	{
-		return startupService.checkStartupName(startup);
+		return startupService.checkStartupName(startupName);
 	}
 }

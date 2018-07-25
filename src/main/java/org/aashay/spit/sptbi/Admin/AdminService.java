@@ -11,6 +11,7 @@ import java.util.Date;
 import org.aashay.spit.sptbi.Database.MySql;
 import org.aashay.spit.sptbi.Founder.Founder;
 import org.aashay.spit.sptbi.Founder.FounderService;
+import org.aashay.spit.sptbi.Panelist.Panelist;
 import org.aashay.spit.sptbi.Startup.Startup;
 
 
@@ -20,22 +21,22 @@ import org.aashay.spit.sptbi.Startup.Startup;
  * 
  */
 
-public class AdminService {
+public final class AdminService {
 	
 	private MySql mysql=new MySql();
 	private Connection con=mysql.getConnection();
 	private static final String TAG="\"AdminService\"";
 	
-	public int postToDatabase(Admin admin)
+	public int postToDatabase(Panelist panelist)
 	{
 		try
 		{
 			String s1="";
-			int id=getId(admin.getCategory());
+			int id=getId(panelist.getCategory());
 			System.out.println(TAG+": "+"ID: "+id);
 			s1="insert into panelists (username,password,category,round,panelistno,selectionlimit) values"
-					+ "('"+admin.getUserName()+"','"+admin.getPassword()+"','"+admin.getCategory().toUpperCase()+"'"
-					+ ","+admin.getRound()+","+id+","+admin.getSelectionLimit()+")";
+					+ "('"+panelist.getUsername()+"','"+panelist.getPassword()+"','"+panelist.getCategory().toUpperCase()+"'"
+					+ ","+panelist.getRound()+","+id+","+panelist.getSelectionLimit()+")";
 			PreparedStatement stmt=con.prepareStatement(s1);
 			stmt.executeUpdate();
 			System.out.println(TAG+": "+s1);
@@ -53,10 +54,10 @@ public class AdminService {
 				endRound2=rs1.getLong(2);
 			}
 			
-			if(admin.getRound()==1 && endRound1!=0 && endRound2==0)
-				endRound(1,admin.getCategory());
-			else if(admin.getRound()==2 && endRound1!=0 && endRound2!=0)
-				endRound(2,admin.getCategory());
+			if(panelist.getRound()==1 && endRound1!=0 && endRound2==0)
+				endRound(1,panelist.getCategory());
+			else if(panelist.getRound()==2 && endRound1!=0 && endRound2!=0)
+				endRound(2,panelist.getCategory());
 			
 			stmt1.close();
 			rs1.close();
@@ -71,7 +72,7 @@ public class AdminService {
 		return -1;
 	}
 
-	public int getId(String category)
+	private int getId(String category)
 	{
 		int id=0;
 		int countPanelists=0;
@@ -155,16 +156,16 @@ public class AdminService {
 		return -1;
 	}
 	
-	public ArrayList<Admin> getAllPanelists()
+	public ArrayList<Panelist> getAllPanelists()
 	{
-		ArrayList<Admin> list=new ArrayList<>();
+		ArrayList<Panelist> list=new ArrayList<>();
 		try 
 		{
 			String query="select username,category,selectionlimit,round,password from panelists";
 			PreparedStatement stmt=con.prepareStatement(query);
 			ResultSet rs=stmt.executeQuery(query);
 			while(rs.next())
-				list.add(new Admin(rs.getString(1),rs.getString(2),rs.getInt(3),rs.getInt(4),rs.getString(5)));
+				list.add(new Panelist(rs.getString(1),rs.getString(2),rs.getInt(3),rs.getInt(4),rs.getString(5)));
 			stmt.close();
 			rs.close();
 		} 
@@ -175,133 +176,6 @@ public class AdminService {
 		
 		return list;
 	}
-	
-//	public ArrayList<Startup> getFormAndPanelist()
-//	{
-//		ArrayList<Startup> list=new ArrayList<>();
-//		ArrayList<String> allFormIds=new ArrayList<>();
-//		ArrayList<String> allocatedFormids=new ArrayList<>();
-//		try
-//		{
-//			String query="select formid from form";
-//			PreparedStatement stmt=con.prepareStatement(query);
-//			System.out.println(TAG+": "+query);
-//			ResultSet rs=stmt.executeQuery(query);
-//			while(rs.next())
-//				allFormIds.add(String.valueOf(rs.getInt(1)));
-//			
-//			String query1="select username,category,round,start,end from panelists order by username asc";
-//			PreparedStatement stmt1=con.prepareStatement(query1);
-//			System.out.println(TAG+": "+query1);
-//			ResultSet rs1=stmt1.executeQuery();
-//			while(rs1.next())
-//			{
-//				String username=rs1.getString(1);
-//				String category=rs1.getString(2);
-//				int round=rs1.getInt(3);
-//				int start=rs1.getInt(4);
-//				int end=rs1.getInt(5);
-//				if(start!=-1 && end!=-1)
-//				{
-//					String query2="";
-//					if(round==1)
-//						query2="select formid,startupName,legalEntity,description,noFounders,painPoint,primaryCustomer,competitors,"
-//								+ "differentFromCompetitors,moneyModel,workingIdea,operationalRevenue,startupIdea,category,"
-//								+ "round"+round+",rating"+round+",note"+round+",timestamp from form where" 
-//								+ " category='"+category+"' and round"+(round+1)+"='NEW' order by formid asc";
-//					else if(round==2)
-//						query2="select formid,startupName,legalEntity,description,noFounders,painPoint,primaryCustomer,competitors,"
-//								+ "differentFromCompetitors,moneyModel,workingIdea,operationalRevenue,startupIdea,category,"
-//								+ "round"+round+",rating"+round+",note"+round+",timestamp from form where" 
-//								+ " category='"+category+"' and round"+(round-1)+"='YES' order by formid asc";
-//					System.out.println(TAG+": "+query2);
-//					if(!query2.isEmpty())
-//					{
-//						PreparedStatement stmt2=con.prepareStatement(query2);
-//						ResultSet rs2=stmt2.executeQuery();
-//						System.out.println(TAG+": "+query2);
-//						ArrayList<Startup> forms=new ArrayList<>();
-//						while(rs2.next())
-//						{
-//							allocatedFormids.add(String.valueOf(rs2.getInt(1)));
-//							forms.add(new Startup(rs2.getInt(1),rs2.getString(2),rs2.getString(3),rs2.getString(4)
-//									,rs2.getInt(5),rs2.getString(6),rs2.getString(7),rs2.getString(8),rs2.getString(9),rs2.getString(10)
-//									,rs2.getString(11),rs2.getString(12),rs2.getString(13),rs2.getString(14),rs2.getString(15)
-//									,rs2.getInt(16),rs2.getString(17),dateFormatter(rs2.getLong(18))));
-//						}
-//						for(int i=start;i<=end;i++)
-//						{
-//							ArrayList<Founder> founders=new ArrayList<>();
-//							String query3="select founderName,founderEmail,founderContact from founders where formid="+forms.get(i).getFormid();
-//							System.out.println(TAG+": "+query3);
-//							PreparedStatement stmt3=con.prepareStatement(query3);
-//							ResultSet rs3=stmt3.executeQuery();
-//							while(rs3.next())
-//								founders.add(new Founder(rs3.getString(1),rs3.getString(2),rs3.getLong(3)));
-//							
-//							System.out.println(TAG+": "+"Round is: "+round+"\nUsername is: "+username);
-//							list.add(new Startup(forms.get(i).getFormid(),forms.get(i).getStartupName(),forms.get(i).getLegalEntity(),forms.get(i).getDescription()
-//									,forms.get(i).getNoFounders(),forms.get(i).getPainPoint(),forms.get(i).getPrimaryCustomer(),forms.get(i).getCompetitors(),forms.get(i).getDifferentFromCompetitors(),forms.get(i).getMoneyModel()
-//									,forms.get(i).getWorkingIdea(),forms.get(i).getOperationalRevenue(),forms.get(i).getStartupIdea(),forms.get(i).getCategory(),forms.get(i).getStatus()
-//									,forms.get(i).getRating(),forms.get(i).getNote(),founders,username,round,forms.get(i).getTimestamp()));
-//							stmt3.close();
-//							rs3.close();
-//						}
-//						stmt2.close();
-//						rs2.close();
-//					}
-//					else
-//						break;
-//				}
-//			}
-//			
-//			allFormIds.removeAll(allocatedFormids);
-//			FounderService founderService=new FounderService();
-//			for(String id:allFormIds)
-//			{
-//				ArrayList<Founder> founders=founderService.getFounderById(Integer.parseInt(id));
-//				String query4="select formid,startupName,legalEntity,description,noFounders,painPoint,primaryCustomer,competitors,"
-//						+ "differentFromCompetitors,moneyModel,workingIdea,operationalRevenue,startupIdea,category,round1,round2, "
-//						+ "timestamp from form where formid="+id;
-//				PreparedStatement stmt4=con.prepareStatement(query4);
-//				ResultSet rs3=stmt4.executeQuery();
-//				while(rs3.next())
-//				{
-//					int round=0;
-//					if(rs3.getString(15).equals("NEW") && rs3.getString(16).equals("NEW"))
-//						round=1;
-//					else if(rs3.getString(15).equals("YES") && rs3.getString(16).equals("NEW"))
-//						round=2;
-//					
-//					list.add(new Startup(rs3.getInt(1),rs3.getString(2),rs3.getString(3),rs3.getString(4),rs3.getInt(5),
-//							rs3.getString(6),rs3.getString(7),rs3.getString(8),rs3.getString(9),rs3.getString(10),
-//							rs3.getString(11),rs3.getString(12),rs3.getString(13),rs3.getString(14),"NEW",0,"NOT ASSIGNED",
-//							founders,"NOT ASSIGNED",round,dateFormatter(rs3.getLong(15))));
-//				}
-//				stmt4.close();
-//				rs3.close();
-//				
-//				/* 
-//				 * public Startup(int formid, String startupName, String legalEntity, String description, int noFounders,
-//			String painPoint, String primaryCustomer, String competitors, String differentFromCompetitors,
-//			String moneyModel, String workingIdea, String operationalRevenue, String startupIdea, String category,
-//			String status, int rating, String note,ArrayList<Founder> founders,String panelist,int round, long timstamp) 
-//				 * 
-//				 */
-//				
-//			}
-//			
-//			stmt1.close();
-//			rs1.close();
-//			System.out.println(TAG+": "+"No. of forms: "+list.size());
-//			
-//		}
-//		catch(Exception e)
-//		{
-//			System.out.println(TAG+": "+e);
-//		}
-//		return list;
-//	}
 	
 	public ArrayList<Startup> getFormAndPanelist()
 	{
@@ -357,7 +231,7 @@ public class AdminService {
 		return formAndPanelist;
 	}
 
-	public int endRound(int round,String categoryOfPanelist) 
+	public void endRound(int round,String categoryOfPanelist) 
 	{	
 		try 
 		{
@@ -404,7 +278,6 @@ public class AdminService {
 				stmt2.close();
 				rs2.close();
 				
-				return 1;
 			}
 		} 
 		catch (SQLException e)
@@ -412,10 +285,9 @@ public class AdminService {
 			System.out.println(TAG+": "+e);
 		}
 		
-		return 0;
 	}
 	
-	public void setLimits(String username, String category, int round, int selectionLimit) 
+	private void setLimits(String username, String category, int round, int selectionLimit) 
 	{	
 		
 		ArrayList<String> usernames=new ArrayList<>();
@@ -491,7 +363,7 @@ public class AdminService {
 		
 	}
 
-	public EndRoundStatus getEndRoundStatus() 
+	public Admin getEndRoundStatus() 
 	{
 		try 
 		{
@@ -516,7 +388,7 @@ public class AdminService {
 			stmt.close();
 			rs.close();
 			
-			return new EndRoundStatus(endRound1,endRound2);
+			return new Admin(endRound1,endRound2);
 		}
 		catch (SQLException e)
 		{
@@ -526,9 +398,10 @@ public class AdminService {
 		return null;
 	}
 
-	public ArrayList<EndRoundStatus> getPanelistsWithPendingForms() 
+	public ArrayList<Admin> getPanelistsWithPendingForms() 
 	{
-		ArrayList<EndRoundStatus> panelistNames=new ArrayList<>();
+		ArrayList<Admin> panelistNames=new ArrayList<>();
+		System.out.println("hello guys");
 		try
 		{
 			long endRound1=0;
@@ -560,7 +433,7 @@ public class AdminService {
 					PreparedStatement stmt3=con.prepareStatement(query3);
 					ResultSet rs3=stmt3.executeQuery();
 					if(rs3.next())
-						panelistNames.add(new EndRoundStatus(username));
+						panelistNames.add(new Admin(username));
 					stmt3.close();
 					rs3.close();
 				}
@@ -575,7 +448,7 @@ public class AdminService {
 		return panelistNames;
 	}
 	
-	public String dateFormatter(long timestamp)
+	private String dateFormatter(long timestamp)
 	{
 		return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date(timestamp));
 	}

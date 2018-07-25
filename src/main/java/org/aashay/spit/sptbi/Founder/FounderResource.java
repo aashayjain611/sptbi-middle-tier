@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 @Path("/")
-public class FounderResource {
+public final class FounderResource {
 	
 	private FounderService founderService=new FounderService();
 	

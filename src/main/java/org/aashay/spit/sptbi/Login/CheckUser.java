@@ -1,6 +1,6 @@
 package org.aashay.spit.sptbi.Login;
  //This class is used to return the category the panelist will handle as well as the round number. This class was made because of Urvi
-public class CheckUser {
+public final class CheckUser {
 	private int check; //checks if it is an admin,panelist from round 1, panelist from round 2 or incorrect user
 	private String category;
 	private String username;

@@ -18,117 +18,12 @@ import org.json.JSONObject;
  * 
  * */
 
-public class PanelistService {
+public final class PanelistService {
 	
 	private MySql mysql=new MySql();
 	private Connection con=mysql.getConnection();
 	private static final String TAG="\"PanelistService\"";
 	
-	/*
-	 * function to divide the forms of each category among the panelists of that category
-	 * */
-	
-	// get all the untouched forms (ie forms that have not reviewed even once)
-	
-//	public ArrayList<Startup> getAllNewStartup(String username) 
-//	{
-//		//TODO: remove start and end 
-//		
-//		ArrayList<Startup> list=new ArrayList<>(); // arraylist to store details of that form
-//		try 
-//		{
-//			
-//			long endRound1=0;
-//			long endRound2=0;
-//			String query="select endRound1,endRound2 from admin";
-//			PreparedStatement stmt=con.prepareStatement(query);
-//			System.out.println(TAG+": "+query);
-//			ResultSet rs=stmt.executeQuery();
-//			if(rs.next())
-//			{
-//				endRound1=rs.getLong(1);
-//				endRound2=rs.getLong(2);
-//			}
-//			
-//			String category="";
-//			int round=0;
-//			int start=0;// start, end have not been used because function to divide forms is not yet called
-//			int end=0;
-//			String query1="select category,round,start,end from panelists where username='"+username+"'"; // get details of the panelists
-//			System.out.println(TAG+": "+query1);
-//			PreparedStatement stmt1=con.prepareStatement(query1);
-//			ResultSet rs1=stmt1.executeQuery();
-//			if(rs1.next())
-//			{
-//				category=rs1.getString(1);
-//				round=rs1.getInt(2);
-//				start=rs1.getInt(3);
-//				end=rs1.getInt(4);
-//			}
-//			ArrayList<Integer> temp=new ArrayList<>(); //arraylist of formids of that category
-//			String query2="select formid from form where category='"+category+"' order by formid asc"; // get forms based on their category
-//			PreparedStatement stmt2=con.prepareStatement(query2);
-//			System.out.println(TAG+": "+query2);
-//			ResultSet rs2=stmt2.executeQuery();
-//			while(rs2.next())
-//				temp.add(rs2.getInt(1));
-//			if(start!=-1 && end!=-1)
-//			{
-//				for(int i=start;i<=end;i++) //  use this for loop after calling the function to divide no of forms
-//				{
-//					int formid=temp.get(i);
-//					String query3=""; // query to get new forms
-//					if(round==2 && endRound1!=0 && endRound2!=0)
-//						query3="select formid,startupName,legalEntity,description,noFounders,painPoint,primaryCustomer,competitors,"
-//								+ "differentFromCompetitors,moneyModel,workingIdea,operationalRevenue,startupIdea,category,"
-//								+ "round"+round+",rating"+round+",note"+round+" from form where "
-//								+ "category='"+category+"' and round"+round+"='NEW' and round"+(round-1)+"='YES' and formid="
-//								+ formid;
-//					else if(round==1 && endRound2==0 && endRound1!=0)
-//						query3="select formid,startupName,legalEntity,description,noFounders,painPoint,primaryCustomer,competitors,"
-//								+ "differentFromCompetitors,moneyModel,workingIdea,operationalRevenue,startupIdea,category,"
-//								+ "round"+round+",rating"+round+",note"+round+" from form where formid="+formid
-//								+ " and category='"+category+"' and round"+round+"='NEW' and round"+(round+1)+"='NEW'";
-//					System.out.println(TAG+": "+query3);
-//					if(!query3.isEmpty())
-//					{
-//						PreparedStatement stmt3=con.prepareStatement(query3);
-//						ResultSet rs3=stmt3.executeQuery();
-//						if(rs3.next())
-//						{
-//							int form_id=rs3.getInt(1);
-//							ArrayList<Founder> founders=(new FounderService()).getFounderById(form_id);
-//							System.out.println(TAG+": "+"Founders for formid "+form_id+"=");
-//							for(Founder f:founders)
-//								System.out.println(TAG+": "+"Founder name: "+f.getName());
-//							list.add(new Startup(rs3.getInt(1),rs3.getString(2),rs3.getString(3),rs3.getString(4)
-//									,rs3.getInt(5),rs3.getString(6),rs3.getString(7),rs3.getString(8),rs3.getString(9),rs3.getString(10)
-//									,rs3.getString(11),rs3.getString(12),rs3.getString(13),rs3.getString(14),rs3.getString(15)
-//									,rs3.getInt(16),rs3.getString(17),founders));
-//						}
-//						stmt1.close();
-//						rs1.close();
-//						stmt2.close();
-//						rs2.close();
-//						stmt3.close();
-//						rs3.close();
-//						stmt.close();
-//						rs.close();
-//					}
-//					else 
-//						break;
-//				}
-//			}
-//		} 
-//		catch (Exception e) 
-//		{
-//			System.out.println(TAG+": "+e);
-//		}
-//		return list;
-//	}
-	
-	
-
 	// function to update the status,ratings,notes for each form  
 	
 	public int postToDatabase(String json,String username)

@@ -1,58 +1,48 @@
 package org.aashay.spit.sptbi.Admin;
 
-public class Admin {
+public final class Admin {
 	
-	private String userName;
-	private String category;
-	private int selectionLimit;
-	private int round;
-	private String password;
+	private String statusEndRound1;
+	private String statusEndRound2;
+	private String panelistNameWithPendingWork;
+
+	public Admin() {
+		// TODO Auto-generated constructor stub
+	}
 	
-	public String getPassword() {
-		return password;
+	public Admin(String statusEndRound1, String statusEndRound2) {
+		super();
+		this.statusEndRound1 = statusEndRound1;
+		this.statusEndRound2 = statusEndRound2;
+	}
+	
+	public Admin(String panelistNameWithPendingWork) {
+		super();
+		this.panelistNameWithPendingWork = panelistNameWithPendingWork;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public String getPanelistNameWithPendingWork() {
+		return panelistNameWithPendingWork;
 	}
-	
-	public Admin() {
-		
+
+	public void setPanelistNameWithPendingWork(String panelistNameWithPendingWork) {
+		this.panelistNameWithPendingWork = panelistNameWithPendingWork;
 	}
-	
-	public Admin(String userName, String category,int selectionLimit,int round,String password) 
-	{
-		this.userName=userName;
-		this.category=category;
-		this.selectionLimit=selectionLimit;
-		this.round=round;
-		this.password=password;
+
+	public String getStatusEndRound1() {
+		return statusEndRound1;
 	}
-	
-	public String getUserName() {
-		return userName;
+
+	public void setStatusEndRound1(String statusEndRound1) {
+		this.statusEndRound1 = statusEndRound1;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+
+	public String getStatusEndRound2() {
+		return statusEndRound2;
 	}
-	public String getCategory() {
-		return category;
+
+	public void setStatusEndRound2(String statusEndRound2) {
+		this.statusEndRound2 = statusEndRound2;
 	}
-	public void setCategory(String category) {
-		this.category = category;
-	}
-	public int getSelectionLimit() {
-		return selectionLimit;
-	}
-	public void setSelectionLimit(int selectionLimit) {
-		this.selectionLimit = selectionLimit;
-	}
-	public int getRound() {
-		return round;
-	}
-	public void setRound(int round) {
-		this.round = round;
-	}
-	
 	
 }

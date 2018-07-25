@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import org.aashay.spit.sptbi.Database.MySql;
 
 
-public class LoginService {
+public final class LoginService {
 	
 	private MySql mysql=new MySql();
 	private Connection con=mysql.getConnection();

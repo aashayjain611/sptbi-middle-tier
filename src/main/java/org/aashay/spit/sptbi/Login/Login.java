@@ -1,6 +1,6 @@
 package org.aashay.spit.sptbi.Login;
 
-public class Login {
+public final class Login {
 	
 	private String username;
 	private String password;

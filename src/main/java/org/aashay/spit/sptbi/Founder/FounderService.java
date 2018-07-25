@@ -13,7 +13,7 @@ import org.aashay.spit.sptbi.Database.MySql;
  * 
  * */
 
-public class FounderService {
+public final class FounderService {
 	
 	private MySql mysql=new MySql();
 	private Connection con=mysql.getConnection();

@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 //class that connects MySQL to middle tier
+//uses Connection pooling
 
-public class MySql {
+public final class MySql {
 	
 	private static Connection dataSource=null;
+	private static final String TAG="MySql";
 	
 	private static Connection connectToDatabase()
 	{
@@ -19,7 +21,7 @@ public class MySql {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			System.out.println(TAG+": "+e);
 		}
 		return null;
 	}

@@ -1,6 +1,6 @@
 package org.aashay.spit.sptbi.Founder;
 
-public class Founder {
+public final class Founder {
 	
 	private int formid; //stores the formid to which the founder is associated 
 	private int founderid; //stores the generated founderid

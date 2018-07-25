@@ -6,35 +6,34 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.aashay.spit.sptbi.Panelist.Panelist;
 import org.aashay.spit.sptbi.Startup.Startup;
 
 @Path("/admin")
-public class AdminResource {
+public final class AdminResource {
 	
 private AdminService admin=new AdminService();
 	
 	@POST
-	public int postToDatabase(Admin admins)
+	public int postToDatabase(Panelist panelist)
 	{
-		return admin.postToDatabase(admins);
+		return admin.postToDatabase(panelist);
 	}
 	
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{username}")
-	public int deleteMessage(@PathParam("username") String username) 
+	public int deleteMessage(@QueryParam("username") String username) 
 	{
 		 return admin.removePanelist(username);
 	}
 
 	@GET
 	@Path("/getPanelists")
-	public ArrayList<Admin> getAllPanelists()
+	public ArrayList<Panelist> getAllPanelists()
 	{
 		return admin.getAllPanelists();
 	}
@@ -47,21 +46,21 @@ private AdminService admin=new AdminService();
 	}
 	
 	@GET
-	public int endRound(@QueryParam("endRound") int round)
+	public void endRound(@QueryParam("endRound") int round)
 	{
-		return admin.endRound(round,null);
+		admin.endRound(round,null);
 	}
 	
 	@GET
 	@Path("/getRoundStatus")
-	public EndRoundStatus getEndRoundStatus()
+	public Admin getEndRoundStatus()
 	{
 		return admin.getEndRoundStatus();
 	}
 	
 	@GET
 	@Path("/getPanelistWithPendingForms")
-	public ArrayList<EndRoundStatus> getPanelistsWithPendingForms()
+	public ArrayList<Admin> getPanelistsWithPendingForms()
 	{
 		return admin.getPanelistsWithPendingForms();
 	}

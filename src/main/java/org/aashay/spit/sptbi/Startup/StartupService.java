@@ -24,7 +24,6 @@ public class StartupService {
 	
 	public int postToDatabase(String json)
 	{
-		System.out.println("Hello everyone");
 		System.out.println(TAG+": "+json);
 		try
 		{

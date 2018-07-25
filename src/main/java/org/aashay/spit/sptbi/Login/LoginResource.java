@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 
 @Path("/login")
-public class LoginResource {
+public final class LoginResource {
 
 private LoginService login=new LoginService();
 	

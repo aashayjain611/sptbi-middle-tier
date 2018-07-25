@@ -13,7 +13,7 @@ import org.aashay.spit.sptbi.Founder.FounderResource;
 @Path("/startup")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class StartupResource {
+public final class StartupResource {
 	
 	private StartupService startupService=new StartupService();
 	

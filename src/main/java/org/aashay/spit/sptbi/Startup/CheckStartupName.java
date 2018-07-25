@@ -1,6 +1,8 @@
 package org.aashay.spit.sptbi.Startup;
 
-public class CheckStartupName {
+// Model class to check if the startup name exists in the database
+
+public final class CheckStartupName {
 
 	private String check;
 

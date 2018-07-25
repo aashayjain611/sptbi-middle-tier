@@ -1,6 +1,6 @@
 package org.aashay.spit.sptbi.Panelist;
 
-public class Panelist 
+public final class Panelist 
 {
 	private int panelistno;
 	private String username;
@@ -11,6 +11,15 @@ public class Panelist
 	
 	public Panelist() {
 		super();
+	}
+	
+	public Panelist(String username, String category,int selectionLimit,int round,String password) 
+	{
+		this.username=username;
+		this.category=category;
+		this.selectionLimit=selectionLimit;
+		this.round=round;
+		this.password=password;
 	}
 
 	public int getPanelistno() {
